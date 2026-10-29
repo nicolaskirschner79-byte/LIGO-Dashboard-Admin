@@ -30,7 +30,11 @@ Para usar GitHub Pages, habilite o Pages nas configurações deste repositório 
 
 Somente o e-mail autorizado na tabela privada `public.ligo_admin_allowlist` pode acessar a dashboard. O banco agora possui uma restrição que não permite adicionar outro e-mail nessa lista. A Edge Function verifica em cada solicitação se o token de acesso é válido, se o e-mail está confirmado e se pertence à única conta autorizada.
 
-**A senha não está no HTML, no GitHub ou nas tabelas de administração.** Ela deve ser cadastrada diretamente pelo proprietário usando o fluxo **Primeiro acesso** e armazenada pelo Supabase Auth. O administrador deverá confirmar o e-mail e realizar o login. Como a senha foi informada em uma conversa, é recomendável escolher outra senha forte e exclusiva, em vez de reutilizá-la.
+**A opção pública "Criar conta" foi removida do HTML.** A dashboard exibe apenas o login e a recuperação de senha. A senha não fica armazenada no código: o Supabase Auth guarda a credencial de forma protegida.
+
+**Para provisionar o único administrador:** acesse o projeto LIGO no [Supabase Authentication → Users](https://supabase.com/dashboard/project/jgjgmbsgkwdimiinhcbk/auth/users), utilize a opção de adicionar/criar usuário por e-mail, informe o e-mail já autorizado na allowlist e defina a senha diretamente na área de administração. Confirme a conta conforme o fluxo exibido. Depois, entre na dashboard normalmente.
+
+A criação programática desse usuário não estava disponível nas ações da integração e a tentativa de escrita direta no schema Auth foi bloqueada por segurança. Portanto, **não considere a senha configurada nem o login testado até criar o usuário pelo painel Supabase**. Como a senha foi enviada numa conversa, recomenda-se trocar por uma senha forte e exclusiva.
 
 O uso de uma única conta **não garante exclusividade física**: qualquer pessoa que tenha acesso às credenciais ou à sessão autenticada poderá entrar. Proteja a conta de e-mail e encerre a sessão quando terminar.
 
@@ -56,4 +60,4 @@ Configure em **Supabase → Authentication → URL Configuration** a URL da hosp
 
 ### Estado de validação
 
-Os arquivos foram transferidos com comparação exata de conteúdo (SHA de blob), preservando a versão anterior. A função administrativa já estava publicada no Supabase. O login real e as operações com usuário autenticado ainda precisam ser testados em navegador antes da feira.
+Os arquivos foram transferidos com comparação exata de conteúdo (SHA de blob), preservando a versão anterior. A função administrativa já estava publicada no Supabase. A tela de cadastro foi retirada. O banco mantém a allowlist de um único e-mail, mas ainda falta provisionar o usuário Auth pelo Supabase e testar o login real e as operações administrativas no navegador.
