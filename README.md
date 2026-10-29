@@ -26,7 +26,15 @@ A interface é autossuficiente: abra ou hospede `index.html`. Não precisa de de
 
 Para usar GitHub Pages, habilite o Pages nas configurações deste repositório e publique a pasta raiz da branch principal. Configurar a hospedagem **não é necessário** para que o arquivo exista no GitHub.
 
-Para primeiro acesso, utilize o e-mail administrativo previamente autorizado no Supabase e uma senha criada via **Primeiro acesso**. Confirme o e-mail antes de entrar.
+### Administrador único
+
+Somente o e-mail autorizado na tabela privada `public.ligo_admin_allowlist` pode acessar a dashboard. O banco agora possui uma restrição que não permite adicionar outro e-mail nessa lista. A Edge Function verifica em cada solicitação se o token de acesso é válido, se o e-mail está confirmado e se pertence à única conta autorizada.
+
+**A senha não está no HTML, no GitHub ou nas tabelas de administração.** Ela deve ser cadastrada diretamente pelo proprietário usando o fluxo **Primeiro acesso** e armazenada pelo Supabase Auth. O administrador deverá confirmar o e-mail e realizar o login. Como a senha foi informada em uma conversa, é recomendável escolher outra senha forte e exclusiva, em vez de reutilizá-la.
+
+O uso de uma única conta **não garante exclusividade física**: qualquer pessoa que tenha acesso às credenciais ou à sessão autenticada poderá entrar. Proteja a conta de e-mail e encerre a sessão quando terminar.
+
+
 
 Configure em **Supabase → Authentication → URL Configuration** a URL da hospedagem caso os links de confirmação/recuperação de senha redirecionem a outro domínio.
 
