@@ -31,16 +31,16 @@ main{min-width:0;max-width:1700px;width:100%;padding:32px clamp(16px,3vw,48px) 4
 <section id="authScreen">
 <div class="auth-card">
  <div class="brand"><div class="brand-mark">⌁</div><div class="brand-copy"><strong>LIGO CONTROL</strong><small>Painel de administração</small></div></div>
- <h1>Acesso restrito.</h1><p>Acesso reservado à conta administradora do LIGO. Gerencie jogadores, partidas e rankings com autorização verificada no servidor.</p>
+ <h1>Acesso administrativo.</h1><p>Acesso reservado à conta administradora do LIGO. Gerencie jogadores, partidas e rankings com autorização verificada no servidor.</p>
  <form id="loginForm">
   <div class="field"><label for="loginEmail">E-MAIL DO ADMINISTRADOR</label><input id="loginEmail" type="email" autocomplete="username" required placeholder="seu@email.com"></div>
   <div class="field"><label for="loginPassword">SENHA</label><input id="loginPassword" type="password" autocomplete="current-password" minlength="8" required placeholder="Sua senha de acesso"></div>
   <button id="loginSubmit" class="btn primary wide" type="submit">Entrar no painel →</button>
  </form>
  <div style="display:flex;justify-content:space-between;gap:10px;margin-top:18px;font-size:12px">
-  <button id="createAccount" class="link-btn">Primeiro acesso</button><button id="resetPassword" class="link-btn">Esqueci minha senha</button>
+  <span class="muted">Conta exclusiva de administrador</span><button id="resetPassword" class="link-btn">Esqueci minha senha</button>
  </div>
- <div id="authMessage" class="auth-note">Painel exclusivo de uma conta administrativa. A autenticação e a confirmação do e-mail são verificadas pelo Supabase; o servidor bloqueia qualquer outro usuário.</div>
+ <div id="authMessage" class="auth-note">Somente a conta administradora autorizada pode entrar. O acesso exige e-mail e senha verificados pelo Supabase Auth.</div>
 </div></section>
 <div id="shell" hidden>
 <aside>
@@ -138,12 +138,6 @@ $('loginForm').addEventListener('submit',async ev=>{
  try{await signIn($('loginEmail').value.trim().toLowerCase(),$('loginPassword').value);$('loginPassword').value=''}
  catch(e){setAuthMessage('Não foi possível entrar: '+e.message)}
  finally{b.disabled=false;b.textContent='Entrar no painel →'}
-});
-$('createAccount').addEventListener('click',async()=>{
- const email=$('loginEmail').value.trim().toLowerCase(),password=$('loginPassword').value;
- if(!email||password.length<8){setAuthMessage('Informe seu e-mail autorizado e uma nova senha com pelo menos 8 caracteres antes de clicar em Primeiro acesso.');return}
- try{await authRequest('/signup',{email,password});setAuthMessage('Cadastro solicitado. Verifique a mensagem enviada para seu e-mail, confirme a conta e volte aqui para entrar. Somente a conta autorizada no banco poderá abrir a dashboard.')}
- catch(e){setAuthMessage('Não foi possível cadastrar: '+e.message)}
 });
 $('resetPassword').addEventListener('click',async()=>{
  const email=$('loginEmail').value.trim().toLowerCase();if(!email){setAuthMessage('Informe seu e-mail antes de solicitar a recuperação.');return}
